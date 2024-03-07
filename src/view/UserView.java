@@ -12,9 +12,10 @@ import static java.lang.System.*;
 
 public class UserView {
     static Scanner scanner = new Scanner(in);
-    static Table tblUsers = new Table(7, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
     static CellStyle cellStyle = new CellStyle(CellStyle.HorizontalAlign.center);
     public static void printInfo(List<User> userList){
+        Table tblUsers = new Table(7, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
+
         tblUsers.addCell("     ID     ");
         tblUsers.addCell("     Name     ");
         tblUsers.addCell("     Email     ");
@@ -57,6 +58,8 @@ public class UserView {
     }
 
     public static void readOneUser(List<User> userList) {
+        Table tblUsers = new Table(7, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
+
         out.print(">> Enter user id you want to read: ");
         int id = Integer.parseInt(scanner.nextLine());
         tblUsers.addCell("     ID     ");
@@ -116,6 +119,8 @@ public class UserView {
         return "*".repeat(password.length());
     }
     public static void searchById(List<User> userList) {
+        Table tblUsers = new Table(7, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
+
         out.print(">> Enter user id to search: ");
         int userId = Integer.parseInt(scanner.nextLine());
         tblUsers.addCell("     ID     ");
