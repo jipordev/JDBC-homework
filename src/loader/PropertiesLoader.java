@@ -1,9 +1,7 @@
-package repository;
+package loader;
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.sql.SQLException;
 import java.util.Properties;
 
 public class PropertiesLoader {

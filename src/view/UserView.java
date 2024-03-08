@@ -11,6 +11,8 @@ import java.util.*;
 import static java.lang.System.*;
 
 public class UserView {
+    static UUID uuid = UUID.randomUUID();
+    static String shortUUID = uuid.toString().substring(0,9);
     static Scanner scanner = new Scanner(in);
     static CellStyle cellStyle = new CellStyle(CellStyle.HorizontalAlign.center);
     public static void printInfo(List<User> userList){
@@ -36,8 +38,6 @@ public class UserView {
     }
     public static User createUser() {
         User createdUser = new User();
-        UUID uuid = UUID.randomUUID();
-        String shortUUID = uuid.toString().substring(0,9);
         out.print("Enter Username: ");
         createdUser.setUserName(scanner.nextLine());
         out.print("Enter Email: ");
@@ -150,7 +150,8 @@ public class UserView {
             out.println("User not found");
         }
     }
-    public static int updateById(List<User> userList) {
+
+    public static User updateById(List<User> userList) {
         out.print(">> Enter user id you want to update: ");
         int userId = Integer.parseInt(scanner.nextLine());
         for (User user : userList) {
@@ -159,19 +160,19 @@ public class UserView {
                 user.setUserName(scanner.nextLine());
                 out.print("Enter new user email: ");
                 user.setUserEmail(scanner.nextLine());
-                out.print("Is user deleted? [true/false]: ");
-                user.setIsDeleted(Boolean.parseBoolean(scanner.nextLine()));
+                user.setIsDeleted(false);
                 out.print("Is user verified? [true/false]: ");
                 user.setIsVerified(Boolean.parseBoolean(scanner.nextLine()));
+                user.setUuid(shortUUID);
                 out.print("Do you want to update password? [Y/N]: ");
                 if (scanner.nextLine().equalsIgnoreCase("y")) {
                     out.print("Enter new password: ");
                     user.setUserPassword(scanner.nextLine());
                 }
-                return userId; // Return the user ID being updated
+                return user;
             }
         }
-        return -1; // Indicate that the user ID was not found
+        return null;
     }
 
 }

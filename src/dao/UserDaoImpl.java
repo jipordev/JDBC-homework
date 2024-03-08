@@ -1,14 +1,14 @@
-package repository;
+package dao;
 
+import loader.PropertiesLoader;
 import model.User;
 
-import java.security.PrivilegedAction;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserRepositoryImpl implements UserRepository{
+public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         String sql = "SELECT * FROM users";
@@ -40,7 +40,7 @@ public class UserRepositoryImpl implements UserRepository{
         return null;
     }
     @Override
-    public void createUser(User user) {
+    public User createUser(User user) {
         String sql = """
                     INSERT INTO users (user_name, user_email, is_deleted, user_password, is_verified, user_uuid)
                     VALUES (?,?,?,?,?,?)""";
@@ -60,14 +60,16 @@ public class UserRepositoryImpl implements UserRepository{
             int rowInserted = preparedStatement.executeUpdate();
             if (rowInserted > 0) {
                 System.out.println("User created successfully");
+                return user;
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return null;
     }
     @Override
-    public void deleteUser(Integer userId){
+    public Integer deleteUser(Integer userId){
         String sql = "DELETE FROM users WHERE user_id = ?";
         PropertiesLoader.loadingProperties();
         try(
@@ -83,6 +85,7 @@ public class UserRepositoryImpl implements UserRepository{
 
             if (rowsDeleted > 0 ){
                 System.out.println("User deleted successfully");
+                return userId;
             } else {
                 System.out.println("User not found in database");
             }
@@ -90,6 +93,7 @@ public class UserRepositoryImpl implements UserRepository{
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return null;
     }
 
     @Override
@@ -137,7 +141,7 @@ public class UserRepositoryImpl implements UserRepository{
                         PropertiesLoader.properties.getProperty("database_password")
                 );
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
-                ) {
+        ) {
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -156,5 +160,6 @@ public class UserRepositoryImpl implements UserRepository{
         }
         return Optional.empty();
     }
+
 
 }
